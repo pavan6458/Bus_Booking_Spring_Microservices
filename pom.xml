@@ -19,8 +19,6 @@
 		<module>BusSchedule</module>
 		<module>BusPassangers</module>
 		<module>User</module>
-        <module>ApiGateway</module>
-		<module>ApiGateway</module>
 	</modules>
     <properties>
 		<java.version>17</java.version>

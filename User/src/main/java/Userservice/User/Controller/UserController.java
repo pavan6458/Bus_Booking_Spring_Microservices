@@ -114,6 +114,7 @@ public class UserController {
 //        return ResponseGenerater.ResponseBuilder(HttpStatus.OK, "Login Successfully", user);
 //    }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<Object> getUser(@PathVariable(value = "id") Integer id) {
         LoginDtoResp userById = userService.getUserById(id);

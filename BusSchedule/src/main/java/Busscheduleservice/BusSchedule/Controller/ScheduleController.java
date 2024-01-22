@@ -4,6 +4,7 @@ package Busscheduleservice.BusSchedule.Controller;
 import Busscheduleservice.BusSchedule.DTO.Request.BusSearchReqDto;
 import Busscheduleservice.BusSchedule.DTO.Request.ScheduleRegReq;
 import Busscheduleservice.BusSchedule.DTO.Response.ScheduleDTo;
+import Busscheduleservice.BusSchedule.DTO.Response.ScheduleDtoWithBus;
 import Busscheduleservice.BusSchedule.Service.ScheduleService;
 import Busscheduleservice.BusSchedule.Utils.ResponseGenerater;
 import lombok.extern.slf4j.Slf4j;
@@ -31,13 +32,13 @@ public class ScheduleController {
 
     @PostMapping("/SeachBuses")
     public ResponseEntity<Object> searchBuses(@RequestBody BusSearchReqDto busSearchReqDto){
-        Set<ScheduleDTo> scheduleRegResps = scheduleService.searchBus(busSearchReqDto);
+        Set<ScheduleDtoWithBus> scheduleRegResps = scheduleService.searchBus(busSearchReqDto);
         return ResponseGenerater.ResponseBuilder(HttpStatus.OK,"Bus Scheduled fetched Successsfully",scheduleRegResps);
     }
     @GetMapping("/All/{adminId}")
     public ResponseEntity<Object> getAllSchedule(@PathVariable(value = "adminId")Integer adminid)
     {
-        Set<ScheduleDTo> allSchedule = scheduleService.getAllSchedule(adminid);
+        Set<ScheduleDtoWithBus> allSchedule = scheduleService.getAllSchedule(adminid);
         return ResponseGenerater.ResponseBuilder(HttpStatus.OK,"Bus Scheduled fetched Successsfully",allSchedule);
 
     }

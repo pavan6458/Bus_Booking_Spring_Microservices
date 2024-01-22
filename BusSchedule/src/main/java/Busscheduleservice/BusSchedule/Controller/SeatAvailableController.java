@@ -30,4 +30,10 @@ public class SeatAvailableController {
         BookedSeats bookedSeats = seatAvailbleService.reservedSeats(passangerDto);
         return ResponseGenerater.ResponseBuilder(HttpStatus.OK,"Reserved seats fetched Successsfully",bookedSeats);
     }
+
+    @PostMapping("/mscheckSeat")
+    public Boolean mscheckavailiability(@RequestBody PassangerDto passangerDto){
+        Boolean seatAvailblleDTO = seatAvailbleService.bookSeats(passangerDto);
+        return seatAvailblleDTO;
+    }
 }

@@ -14,12 +14,18 @@ import java.util.*;
 @NoArgsConstructor
 @Setter
 @Getter
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(name = "phone",columnNames ="companyPhone" )
+        }
+)
 public class BusCompanyAdmin implements Serializable {
     @Id
     private Integer id;
     private String companyName;
     private String companyEmail;
-    private String CompanyPhone;
+
+    private String companyPhone;
     private String passwordHash;
     private String role;
     @CreationTimestamp

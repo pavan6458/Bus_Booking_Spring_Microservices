@@ -9,9 +9,9 @@ import BusPassangersservice.BusPassangers.Exception.DataNotFounException;
 import BusPassangersservice.BusPassangers.Repository.BookingRepository;
 import BusPassangersservice.BusPassangers.Repository.PassengerRepository;
 import BusPassangersservice.BusPassangers.Service.PassangerService;
+import BusPassangersservice.BusPassangers.Service.Client.seatAvailabilityFeign;
 import BusPassangersservice.BusPassangers.Utils.GenerateId;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,51 +25,48 @@ public class PassangersServiceImpp implements PassangerService {
 
     private BookingRepository bookingRepository;
     private ModelMapper modelMapper;
-//    private SeatAvailbleService seatAvailable;
-    @Autowired
-    public PassangersServiceImpp(PassengerRepository passengerRepository, BookingRepository bookingRepository, ModelMapper modelMapper) {
+    private seatAvailabilityFeign seatAvailable;
+
+    public PassangersServiceImpp(PassengerRepository passengerRepository, BookingRepository bookingRepository, ModelMapper modelMapper, seatAvailabilityFeign seatAvailable) {
         this.passengerRepository = passengerRepository;
         this.bookingRepository = bookingRepository;
         this.modelMapper = modelMapper;
-
+        this.seatAvailable = seatAvailable;
     }
-
-
 
 
     @Override
     public PassangerDto addPassangersToBooking(PassangerDto passangerDto) {
 
-//        boolean notReserved=seatAvailable.bookSeats(passangerDto);
-//        List<PassangerDto> passangerDtos = new ArrayList<>();
-//        if(notReserved)
-//        {
-//
-//
-//            Booking booking = bookingRepository.findById(passangerDto.getBookingId()).orElseThrow(() ->
-//                    new DataNotFounException("Booking not found with id " + passangerDto.getBookingId()));
-//            booking.setStatus("Booked");
-//
-//            List<PassangerList> collect = passangerDto.getPassangerLists().stream().map((list) ->
-//            {
-//                Passenger passenger = convertPassangerDtoTOPassanget(list);
-//                passenger.setId(GenerateId.BuildId());
-//                passenger.setScheduleId(passangerDto.getScheduleId());
-//                passenger.setBooking(booking);
-//                Passenger objectSaved = passengerRepository.save(passenger);
-//                return convertPAssangetTopassangerDTo.apply(objectSaved);
-//
-//            }).collect(Collectors.toList());
-//
-//            PassangerDto passangerDto1 = new PassangerDto();
-//            passangerDto1.setPassangerLists(collect);
-//            passangerDto1.setBookingId(passangerDto.getScheduleId());
-//            passangerDto1.setScheduleId(passangerDto.getScheduleId());
-////            return passangerDto1;
-//        }
-//        else
-//            throw new DataNotFounException("Please restart the booking");
-        return null;
+        boolean notReserved=seatAvailable.mscheckavailiability(passangerDto);
+        List<PassangerDto> passangerDtos = new ArrayList<>();
+        if(notReserved)
+        {
+
+
+            Booking booking = bookingRepository.findById(passangerDto.getBookingId()).orElseThrow(() ->
+                    new DataNotFounException("Booking not found with id " + passangerDto.getBookingId()));
+            booking.setStatus("Booked");
+
+            List<PassangerList> collect = passangerDto.getPassangerLists().stream().map((list) ->
+            {
+                Passenger passenger = convertPassangerDtoTOPassanget(list);
+                passenger.setId(GenerateId.BuildId());
+                passenger.setScheduleId(passangerDto.getScheduleId());
+                passenger.setBooking(booking);
+                Passenger objectSaved = passengerRepository.save(passenger);
+                return convertPAssangetTopassangerDTo.apply(objectSaved);
+
+            }).collect(Collectors.toList());
+
+            PassangerDto passangerDto1 = new PassangerDto();
+            passangerDto1.setPassangerLists(collect);
+            passangerDto1.setBookingId(passangerDto.getScheduleId());
+            passangerDto1.setScheduleId(passangerDto.getScheduleId());
+            return passangerDto1;
+        }
+        else
+            throw new DataNotFounException("Please restart the booking");
     }
 
     @Override

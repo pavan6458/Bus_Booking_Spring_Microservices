@@ -16,7 +16,7 @@ public class BookingDTO {
     private Integer totalPassengers;
     @NotNull(message = "Total amount cannot be empty")
     @Min(value = 0, message = "Total amount must be greater than or equal to 0")
-            private Double totalAmount;
-            private Long paymentMethodId;
-            private String status;
+    private Double totalAmount;
+    private Long paymentMethodId;
+    private String status;
 }

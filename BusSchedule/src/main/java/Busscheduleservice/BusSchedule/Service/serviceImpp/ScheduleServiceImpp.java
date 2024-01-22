@@ -3,13 +3,18 @@ package Busscheduleservice.BusSchedule.Service.serviceImpp;
 
 import Busscheduleservice.BusSchedule.DTO.Request.BusSearchReqDto;
 import Busscheduleservice.BusSchedule.DTO.Request.ScheduleRegReq;
+import Busscheduleservice.BusSchedule.DTO.Response.BusRegResp;
 import Busscheduleservice.BusSchedule.DTO.Response.ScheduleDTo;
+import Busscheduleservice.BusSchedule.DTO.Response.ScheduleDtoWithBus;
 import Busscheduleservice.BusSchedule.Entity.Schedule;
 import Busscheduleservice.BusSchedule.Exception.DataNotFounException;
 import Busscheduleservice.BusSchedule.Repository.ScheduleRepository;
+import Busscheduleservice.BusSchedule.Service.Client.BusServicesFeign;
 import Busscheduleservice.BusSchedule.Service.ScheduleService;
 import Busscheduleservice.BusSchedule.Utils.GenerateId;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneId;
@@ -20,15 +25,17 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class ScheduleServiceImpp implements ScheduleService {
+
     private ModelMapper mapper;
     private ScheduleRepository scheduleRepository;
+    private BusServicesFeign busServicesFeign;
 
-
-    public ScheduleServiceImpp(ModelMapper mapper, ScheduleRepository scheduleRepository) {
+    public ScheduleServiceImpp(ModelMapper mapper, ScheduleRepository scheduleRepository, BusServicesFeign busServicesFeign) {
         this.mapper = mapper;
         this.scheduleRepository = scheduleRepository;
-
+        this.busServicesFeign = busServicesFeign;
     }
 
     @Override
@@ -43,11 +50,13 @@ public class ScheduleServiceImpp implements ScheduleService {
         schedule.setDestination(scheduleRegReq.getDestination());
         schedule.setDistance(scheduleRegReq.getDistance());
         schedule.setBusId(scheduleRegReq.getBusId());
-        schedule.setBusCompanyAdminId(scheduleRegReq.getBusId());
+        schedule.setBusCompanyAdminId(scheduleRegReq.getAdminId());
         Schedule Scheduled = scheduleRepository.save(schedule);
 
         return convertScheduleToScheduleRegResp.apply(Scheduled);
     }
+
+
 
     @Override
     public ScheduleDTo updatedSchedule(Integer scheduleId, ScheduleRegReq scheduleRegReq) {
@@ -64,10 +73,18 @@ public class ScheduleServiceImpp implements ScheduleService {
     }
 
     @Override
-    public Set<ScheduleDTo> getAllSchedule(Integer adminId) {
+    public Set<ScheduleDtoWithBus> getAllSchedule(Integer adminId) {
         List<Schedule> scheduleList = scheduleRepository.findByBusCompanyAdminId(adminId);
 
-        return scheduleList.stream().map(convertScheduleToScheduleRegResp).collect(Collectors.toSet());
+
+        return scheduleList.stream().map(convertScheduleToScheduleWithBusRegResp).collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<ScheduleDtoWithBus> searchBus(BusSearchReqDto busSearchReqDto) {
+        List<Schedule> searchedBuses = scheduleRepository.findByOriginAndDestinationAndArrivalDate(busSearchReqDto.getOrigin(), busSearchReqDto.getDestination(), busSearchReqDto.getArrivalTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        return searchedBuses.stream().map(convertScheduleToScheduleWithBusRegResp).collect(Collectors.toSet());
+
     }
 
 
@@ -76,7 +93,9 @@ public class ScheduleServiceImpp implements ScheduleService {
     public ScheduleDTo getSchudleById(Integer sheduleId) {
         Schedule schedule = scheduleRepository.findById(sheduleId)
                 .orElseThrow(() -> new DataNotFounException("Schedule not found with id" + sheduleId));
-        return convertScheduleToScheduleRegResp.apply(schedule);
+        ScheduleDtoWithBus scedule = convertScheduleToScheduleWithBusRegResp.apply(schedule);
+
+                return null;
     }
 
     @Override
@@ -92,14 +111,26 @@ public class ScheduleServiceImpp implements ScheduleService {
         return null;
     }
 
-    @Override
-    public Set<ScheduleDTo> searchBus(BusSearchReqDto busSearchReqDto) {
-        List<Schedule> searchedBuses = scheduleRepository.findByOriginAndDestinationAndArrivalDate(busSearchReqDto.getOrigin(), busSearchReqDto.getDestination(), busSearchReqDto.getArrivalTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-        Set<ScheduleDTo> collect = searchedBuses.stream().map(convertScheduleToScheduleRegResp).collect(Collectors.toSet());
-        return collect;
-    }
 
-    Function<Schedule,ScheduleDTo> convertScheduleToScheduleRegResp = s1 -> mapper.map(s1,ScheduleDTo.class);
+
+    Function<Schedule,ScheduleDTo> convertScheduleToScheduleRegResp = s1 ->mapper.map(s1, ScheduleDTo.class);
+
+
+    Function<Schedule, ScheduleDtoWithBus> convertScheduleToScheduleWithBusRegResp = s1 ->{
+        BusRegResp bus = busServicesFeign.getBusByIdms(s1.getBusId());
+        ScheduleDtoWithBus sachedule = new ScheduleDtoWithBus();
+        sachedule.setArrivalTime(s1.getArrivalTime());
+        sachedule.setId(s1.getId());
+        sachedule.setDuration(s1.getDuration());
+        sachedule.setOrigin(s1.getOrigin());
+        sachedule.setPrice(s1.getPrice());
+        sachedule.setDepartureTime(s1.getDepartureTime());
+        sachedule.setDestination(s1.getDestination());
+        sachedule.setBus(bus);
+        return sachedule;
+    };
+
+
 
 
 

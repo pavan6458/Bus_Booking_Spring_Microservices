@@ -1,37 +1,132 @@
+version: '3.8'
+
 services:
+  eurekaserver:
+    image: "pavan6458/eurekaserver:v1"
+    container_name: eurekaserver
+    ports:
+      - "8070:8070"
+    networks:
+      - busservices
+    healthcheck:
+      test: "curl --fail --silent eurekaserver:8070/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
+
+
+
+  configserver:
+    image: "pavan6458/configserver:v1"
+    container_name: configserver-ms
+    ports:
+      - "8071:8071"
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+    healthcheck:
+      test: "curl --fail --silent configserver:8071/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    depends_on:
+      eurekaserver:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - busservices
+
   busadmin:
     image: "pavan6458/busadmin:v1"
     container_name: busadmin-ms
     ports:
-      - "8081:8081"
+      - "8080:8080"
     deploy:
       resources:
         limits:
           memory: 700m
-  buspassengers:
-    image: "pavan6458/busschedule:v1"
-    container_name: buspassengers-ms
-    ports:
-      - "8084:8084"
-    deploy:
-      resources:
-        limits:
-          memory: 700m
+    networks:
+      - busservices
+    environment:
+      SPRING_APPLICATION_NAME: busadmin
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071
+      SPRING_PROFILES_ACTIVE: default
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+      SPRING_DATASOURCE_URL: jdbc:postgresql://54.91.233.238:5432/busservice
+    depends_on:
+      configserver:
+        condition: service_healthy
+
   busschedule:
     image: "pavan6458/busschedule:v1"
     container_name: busschedule-ms
-    ports:
-      - "8082:8082"
-    deploy:
-      resources:
-        limits:
-          memory: 700m
-  usermaster:
-    image: "pavan6458/usermaster:v1"
-    container_name: usermaster-ms
     ports:
       - "8083:8083"
     deploy:
       resources:
         limits:
           memory: 700m
+    networks:
+      - busservices
+    environment:
+      SPRING_APPLICATION_NAME: busschedule
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071
+      SPRING_PROFILES_ACTIVE: default
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+      SPRING_DATASOURCE_URL: jdbc:postgresql://54.91.233.238:5432/schedules
+
+    depends_on:
+      configserver:
+        condition: service_healthy
+
+  buspassengers:
+    image: "pavan6458/buspassangers:v1"
+    container_name: buspassangers-ms
+    ports:
+      - "8082:8082"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - busservices
+    environment:
+      SPRING_APPLICATION_NAME: buspassengers
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071
+      SPRING_PROFILES_ACTIVE: default
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+      SPRING_DATASOURCE_URL: jdbc:postgresql://54.91.233.238:5432/passangers
+    depends_on:
+      configserver:
+        condition: service_healthy
+
+  usermaster:
+    image: "pavan6458/usermaster:v1"
+    container_name: usermaster-ms
+    ports:
+      - "8084:8084"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - busservices
+    environment:
+      SPRING_APPLICATION_NAME: usermaster
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071
+      SPRING_PROFILES_ACTIVE: default
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+      SPRING_DATASOURCE_URL: jdbc:postgresql://54.91.233.238:5432/usermaster
+    depends_on:
+      configserver:
+        condition: service_healthy
+
+networks:
+  busservices:
+    driver: "bridge"

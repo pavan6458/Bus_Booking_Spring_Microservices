@@ -39,6 +39,12 @@ public class BusController {
         return ResponseGenerater.ResponseBuilder(HttpStatus.OK, "fetched successfully", bus);
     }
 
+    @GetMapping("/ms/{msbusId}")
+    public ResponseEntity getBusByIdms(@PathVariable(name = "msbusId") Integer busId) {
+        BusRegResp bus = busService.getBusById(busId);
+        return ResponseEntity.ok().body(bus);
+    }
+
     @PutMapping("/{busId}/update")
     public ResponseEntity<Object> updateBusById(@PathVariable(name = "busId") Integer busId, @RequestBody BusRegReq busRegReq) {
         BusRegResp busRegResp = busService.UpdateBus(busId, busRegReq);

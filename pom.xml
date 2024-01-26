@@ -21,6 +21,7 @@
 		<module>User</module>
 		<module>configServer</module>
 		<module>eurekaserver</module>
+		<module>gatewayServer</module>
 	</modules>
     <properties>
 		<java.version>17</java.version>

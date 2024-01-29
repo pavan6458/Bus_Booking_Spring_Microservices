@@ -1,0 +1,1421 @@
+{
+	"info": {
+		"_postman_id": "df76d286-e820-4f2b-a3ed-29bf68d310ce",
+		"name": "microservices",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31256806"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "SendOtp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mobile\": \"9900339899\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{apiurl}}}}api/user/public/SendOtp",
+							"host": [
+								"{{apiurl}}}}api"
+							],
+							"path": [
+								"user",
+								"public",
+								"SendOtp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "12345",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "9898989898",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{userDbUrl}}api/user/public/login",
+							"host": [
+								"{{userDbUrl}}api"
+							],
+							"path": [
+								"user",
+								"public",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "otpVerify",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mobileNo\": \"9900339899\",\n    \"otp\":\"1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{userDbUrl}}api/user/public/otpVerify",
+							"host": [
+								"{{userDbUrl}}api"
+							],
+							"path": [
+								"user",
+								"public",
+								"otpVerify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "profileCreation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"vinay kumar\",\n    \"mobileNumber\":\"9898989898\",\n    \"email\":\"pk1aaga.com\",\n    \"profilePicture\":\"www..google.com\",\n    \"passwardHash\":\"12345\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{userDbUrl}}api/user/private/createProfile",
+							"host": [
+								"{{userDbUrl}}api"
+							],
+							"path": [
+								"user",
+								"private",
+								"createProfile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwYXZhbiIsInN1YiI6Imp3dFRva2VuIiwiaWQiOjE3Mjc0NTYzOSwiaWF0IjoxNzAyNzIyMjYyLCJleHAiOjE3MDUxNDE0NjJ9.Haj2L89N5H8nyF4sio0pkLiRCLEoEOoVrJkc65Uy26A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{userDbUrl}}api/user/359551022",
+							"host": [
+								"{{userDbUrl}}api"
+							],
+							"path": [
+								"user",
+								"359551022"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateProfile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\":359551022,\n    \"name\":\"pabannnn\",\n    \"email\":\"pppp@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{userDbUrl}}api/user/private/updateProfile",
+							"host": [
+								"{{userDbUrl}}api"
+							],
+							"path": [
+								"user",
+								"private",
+								"updateProfile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "BusAdmin",
+			"item": [
+				{
+					"name": "CreateBusAdmin",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"companyName\": \"ABC Corp\",\n    \"companyEmail\": \"admin1@gmail.com\",\n    \"companyPhone\": 9999999999,\n    \"passwordHash\": \"Admin@123\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{adminDbUrl}}busBooking/busadmin/api/admin/public/create",
+							"host": [
+								"{{adminDbUrl}}busBooking"
+							],
+							"path": [
+								"busadmin",
+								"api",
+								"admin",
+								"public",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AdminLogin",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin1@gmail.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "Admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{adminDbUrl}}api/admin/public/login",
+							"host": [
+								"{{adminDbUrl}}api"
+							],
+							"path": [
+								"admin",
+								"public",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "version",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "9980586489",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "12345",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{adminDbUrl}}busBooking/busadmin/api/admin/version",
+							"host": [
+								"{{adminDbUrl}}busBooking"
+							],
+							"path": [
+								"busadmin",
+								"api",
+								"admin",
+								"version"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "BusOperator",
+			"item": [
+				{
+					"name": "Create Bus Operator",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwYXZhbiBCYW5rIiwic3ViIjoiSldUIFRva2VuIiwidXNlcm5hbWUiOiJBQkMgQ29ycCIsImlkIjozNjkyODgzMzMsImF1dGhvcml0aWVzIjoiQWRtaW4iLCJpYXQiOjE3MDI2NDUzMzMsImV4cCI6MTcwNTA2NDUzM30.gLNTwGp7txPdaOqRIN3GI5Omw3pmwmwWUf9Nv8Le4VM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"admin_id\":784965722,\n    \"operatorName\" :\"nani \",\n    \"operatorMobile\":\"9902334455\",\n    \"operatorEmail\":\"nani@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{adminDbUrl}}BUSADMIN/api/bus/busOperator/create",
+							"host": [
+								"{{adminDbUrl}}BUSADMIN"
+							],
+							"path": [
+								"api",
+								"bus",
+								"busOperator",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllBusOperatorByAdminnId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{adminDbUrl}}api/bus/busOperator/All/275951544",
+							"host": [
+								"{{adminDbUrl}}api"
+							],
+							"path": [
+								"bus",
+								"busOperator",
+								"All",
+								"275951544"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetBusOperatorByID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{adminDbUrl}}api/bus/busOperator/194996647",
+							"host": [
+								"{{adminDbUrl}}api"
+							],
+							"path": [
+								"bus",
+								"busOperator",
+								"194996647"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateBusOperator",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"admin_id\":\"784965722\",\n     \"operatorName\" :\"mahesh babu\",\n    \"operatorMobile\":\"9898987676\",\n    \"operatorEmail\":\"nani@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{adminDbUrl}}api/bus/busOperator/358011251/update",
+							"host": [
+								"{{adminDbUrl}}api"
+							],
+							"path": [
+								"bus",
+								"busOperator",
+								"358011251",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete  Bus operator",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{adminDbUrl}}api/bus/busOperator/194996647/delete",
+							"host": [
+								"{{adminDbUrl}}api"
+							],
+							"path": [
+								"bus",
+								"busOperator",
+								"194996647",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bus",
+			"item": [
+				{
+					"name": "createBus",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"busName\":\"sundrapalya Express\",\n    \"totalSeats\":28,\n    \"busType\":\"NON-AC\",\n    \"busOperator\":358011251,\n    \"adminID\":784965722,\n    \"seatType\":\"seater\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{adminDbUrl}}api/bus/create",
+							"host": [
+								"{{adminDbUrl}}api"
+							],
+							"path": [
+								"bus",
+								"create"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "createBus",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"busName\":\"sundrapalya Express\",\n    \"totalSeats\":28,\n    \"busType\":\"NON-AC\",\n    \"busOperator\":187544008,\n    \"adminID\":{{adminId}},\n    \"seatType\":\"seater\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{adminDbUrl}}api/bus/create",
+									"host": [
+										"{{adminDbUrl}}api"
+									],
+									"path": [
+										"bus",
+										"create"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 21 Jan 2024 17:16:35 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"Message\": \"Bus created Successfully\",\n    \"StatusCode\": \"CREATED\",\n    \"Response\": {\n        \"id\": 331829800,\n        \"busName\": \"sundrapalya Express\",\n        \"totalSeats\": 28,\n        \"busType\": \"NON-AC\",\n        \"seatType\": \"seater\",\n        \"busOperatorId\": 187544008\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "GetAllBuses",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{adminDbUrl}}api/bus/All/{{adminId}}",
+							"host": [
+								"{{adminDbUrl}}api"
+							],
+							"path": [
+								"bus",
+								"All",
+								"{{adminId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByBusId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{adminDbUrl}}api/bus/371770096",
+							"host": [
+								"{{adminDbUrl}}api"
+							],
+							"path": [
+								"bus",
+								"371770096"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Bus",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"busName\":\"svet1 bus\",\n    \"totalSeats\":42,\n    \"busType\":\"Ac\",\n    \"busOperator\":693802967,\n    \"adminID\":{{adminId}},\n      \"seatType\":\"Sleeper\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{adminDbUrl}}api/bus/371770096/update",
+							"host": [
+								"{{adminDbUrl}}api"
+							],
+							"path": [
+								"bus",
+								"371770096",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Bus",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{adminDbUrl}}api/bus/483383199/delete",
+							"host": [
+								"{{adminDbUrl}}api"
+							],
+							"path": [
+								"bus",
+								"483383199",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Schedule",
+			"item": [
+				{
+					"name": "create Schedule",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"arrivalTime\": \"2024-01-22T13:00:00.000Z\", \n  \"departureTime\": \"2024-01-22T17:00:00\", \n  \"price\": 325, \n  \"duration\": \"7 Hrs 30 Min\", \n  \"origin\": \"bangalore\", \n  \"destination\": \"sundrapalya\", \n  \"distance\": 136, \n  \"busId\": 385454975, \n  \"adminId\": 784965722 \n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{sheduleDbUrl}}api/bus/scheudle/create",
+							"host": [
+								"{{sheduleDbUrl}}api"
+							],
+							"path": [
+								"bus",
+								"scheudle",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "searchScedule",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwYXZhbiIsInN1YiI6Imp3dFRva2VuIiwiaWQiOjE3Mjc0NTYzOSwiaWF0IjoxNzAyNzIyMjYyLCJleHAiOjE3MDUxNDE0NjJ9.Haj2L89N5H8nyF4sio0pkLiRCLEoEOoVrJkc65Uy26A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n     \"arrivalTime\":\"2024-01-22T13:00:00.000+00:00\",\n  \"origin\":\"bangalore\",\n   \"destination\":\"sundrapalya\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{sheduleDbUrl}}api/bus/scheudle/SeachBuses",
+							"host": [
+								"{{sheduleDbUrl}}api"
+							],
+							"path": [
+								"bus",
+								"scheudle",
+								"SeachBuses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllScedule",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwYXZhbiIsInN1YiI6Imp3dFRva2VuIiwiaWQiOjE3Mjc0NTYzOSwiaWF0IjoxNzAyNzIyMjYyLCJleHAiOjE3MDUxNDE0NjJ9.Haj2L89N5H8nyF4sio0pkLiRCLEoEOoVrJkc65Uy26A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{sheduleDbUrl}}busbooking/busschedule/api/bus/scheudle/All/{{adminId}}",
+							"host": [
+								"{{sheduleDbUrl}}busbooking"
+							],
+							"path": [
+								"busschedule",
+								"api",
+								"bus",
+								"scheudle",
+								"All",
+								"{{adminId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Booking",
+			"item": [
+				{
+					"name": "GetAllBooKingOfUsers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwYXZhbiIsInN1YiI6Imp3dFRva2VuIiwiaWQiOjE3Mjc0NTYzOSwiaWF0IjoxNzAyNzIyMjYyLCJleHAiOjE3MDUxNDE0NjJ9.Haj2L89N5H8nyF4sio0pkLiRCLEoEOoVrJkc65Uy26A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{passangerAndBookingdb}}api/user/booking/All/706726356",
+							"host": [
+								"{{passangerAndBookingdb}}api"
+							],
+							"path": [
+								"user",
+								"booking",
+								"All",
+								"706726356"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createBooking",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwYXZhbiIsInN1YiI6Imp3dFRva2VuIiwiaWQiOjE3Mjc0NTYzOSwiaWF0IjoxNzAyNzIyMjYyLCJleHAiOjE3MDUxNDE0NjJ9.Haj2L89N5H8nyF4sio0pkLiRCLEoEOoVrJkc65Uy26A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"totalPassengers\": \"2\",\n    \"totalAmount\": \"2000\",\n    \"status\": \"in-progress\",\n    \"scheduleId\": 159096510,\n    \"userId\": 103732779\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{passangerAndBookingdb}}api/user/booking/create",
+							"host": [
+								"{{passangerAndBookingdb}}api"
+							],
+							"path": [
+								"user",
+								"booking",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cancel booking",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwYXZhbiIsInN1YiI6Imp3dFRva2VuIiwiaWQiOjU3MjE4MzQzMywiaWF0IjoxNzAyODM4NDE5LCJleHAiOjE3MDUyNTc2MTl9.wLcOI8rNECPAaLEHtyldYX_yyoh-6F08cUqAJXO52Zo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "Http://localhost:8081/api/user/booking/16/delete",
+							"protocol": "Http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"user",
+								"booking",
+								"16",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "Http://localhost:8081/api/user/booking/version",
+							"protocol": "Http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"user",
+								"booking",
+								"version"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "key encrypt",
+			"item": [
+				{
+					"name": "encyrpt",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "Pavan6458@",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8071/encrypt",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8071",
+							"path": [
+								"encrypt"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "passangers",
+			"item": [
+				{
+					"name": "addPassanger",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwYXZhbiIsInN1YiI6Imp3dFRva2VuIiwiaWQiOjU3MjE4MzQzMywiaWF0IjoxNzAyODM4NDE5LCJleHAiOjE3MDUyNTc2MTl9.wLcOI8rNECPAaLEHtyldYX_yyoh-6F08cUqAJXO52Zo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"bookingId\": 2,\n    \"scheduleId\": 159096510,\n    \"passangerLists\": [\n        {\n            \"firstName\": \"vinay kumar s p\",\n            \"age\": 10,\n            \"gender\": \"male\",\n            \"seatNumber\": 40\n        },\n        {\n            \"firstName\": \"nirmala\",\n            \"age\": 21,\n            \"gender\": \"Female\",\n            \"seatNumber\": 50\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{passangerAndBookingdb}}api/bus/passangers/addpassangers",
+							"host": [
+								"{{passangerAndBookingdb}}api"
+							],
+							"path": [
+								"bus",
+								"passangers",
+								"addpassangers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ListOfScheduledPassangers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwYXZhbiIsInN1YiI6Imp3dFRva2VuIiwiaWQiOjU3MjE4MzQzMywiaWF0IjoxNzAyODM4NDE5LCJleHAiOjE3MDUyNTc2MTl9.wLcOI8rNECPAaLEHtyldYX_yyoh-6F08cUqAJXO52Zo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{passangerAndBookingdb}}busBooking/buspassengers/api/bus/passangers/ListOfScheduledPassangers/359551022",
+							"host": [
+								"{{passangerAndBookingdb}}busBooking"
+							],
+							"path": [
+								"buspassengers",
+								"api",
+								"bus",
+								"passangers",
+								"ListOfScheduledPassangers",
+								"359551022"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPassangerByBookingId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwYXZhbiIsInN1YiI6Imp3dFRva2VuIiwiaWQiOjU3MjE4MzQzMywiaWF0IjoxNzAyODM4NDE5LCJleHAiOjE3MDUyNTc2MTl9.wLcOI8rNECPAaLEHtyldYX_yyoh-6F08cUqAJXO52Zo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{passangerAndBookingdb}}busBooking/buspassengers/api/bus/passangers/getByBookingId/1",
+							"host": [
+								"{{passangerAndBookingdb}}busBooking"
+							],
+							"path": [
+								"buspassengers",
+								"api",
+								"bus",
+								"passangers",
+								"getByBookingId",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "seats",
+			"item": [
+				{
+					"name": "checkSeat",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwYXZhbiIsInN1YiI6Imp3dFRva2VuIiwiaWQiOjU3MjE4MzQzMywiaWF0IjoxNzAyODM4NDE5LCJleHAiOjE3MDUyNTc2MTl9.wLcOI8rNECPAaLEHtyldYX_yyoh-6F08cUqAJXO52Zo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"bookingId\":2,\n    \"scheduleId\":864968293,\n    \"passangerLists\":[\n       { \"firstName\":\"vinay\",\n        \"lastName\":\"kumar\",\n        \"age\":24,\n        \"gender\":\"male\",\n        \"seatNumber\":27\n    },\n    { \"firstName\":\"nirmala\",\n        \"lastName\":\"pavan\",\n        \"age\":22,\n        \"gender\":\"Female\",\n        \"seatNumber\":28\n    }\n]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{sheduleDbUrl}}api/bus/checkSeat",
+							"host": [
+								"{{sheduleDbUrl}}api"
+							],
+							"path": [
+								"bus",
+								"checkSeat"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwYXZhbiIsInN1YiI6Imp3dFRva2VuIiwiaWQiOjU3MjE4MzQzMywiaWF0IjoxNzAyODM4NDE5LCJleHAiOjE3MDUyNTc2MTl9.wLcOI8rNECPAaLEHtyldYX_yyoh-6F08cUqAJXO52Zo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "Http://localhost:8080/api/bus/checkReversed/915401775",
+							"protocol": "Http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"bus",
+								"checkReversed",
+								"915401775"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "SendOtp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mobile\": \"9980586489\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{userDbUrl}}api/user/public/SendOtp",
+							"host": [
+								"{{userDbUrl}}api"
+							],
+							"path": [
+								"user",
+								"public",
+								"SendOtp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "otpVerify",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mobileNo\": \"9980586489\",\n    \"otp\":1234\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{userDbUrl}}api/user/public/otpVerify",
+							"host": [
+								"{{userDbUrl}}api"
+							],
+							"path": [
+								"user",
+								"public",
+								"otpVerify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "9980586489",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "12345",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{userDbUrl}}api/user/public/login",
+							"host": [
+								"{{userDbUrl}}api"
+							],
+							"path": [
+								"user",
+								"public",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "profileCreation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwYXZhbiIsInN1YiI6Imp3dFRva2VuIiwiaWQiOjE3Mjc0NTYzOSwiaWF0IjoxNzAyNzIyMjYyLCJleHAiOjE3MDUxNDE0NjJ9.Haj2L89N5H8nyF4sio0pkLiRCLEoEOoVrJkc65Uy26A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"pavan kumar s p\",\n    \"mobileNumber\":\"9980586489\",\n    \"email\":\"pk1@gmail.com\",\n    \"profilePicture\":\"www..google.com\",\n    \"passwardHash\":\"12345\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{userDbUrl}}api/user/private/createProfile",
+							"host": [
+								"{{userDbUrl}}api"
+							],
+							"path": [
+								"user",
+								"private",
+								"createProfile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwYXZhbiIsInN1YiI6Imp3dFRva2VuIiwiaWQiOjE3Mjc0NTYzOSwiaWF0IjoxNzAyNzIyMjYyLCJleHAiOjE3MDUxNDE0NjJ9.Haj2L89N5H8nyF4sio0pkLiRCLEoEOoVrJkc65Uy26A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "Http://localhost:8080/api/user/551671251",
+							"protocol": "Http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"551671251"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateProfile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwYXZhbiBCYW5rIiwic3ViIjoiSldUIFRva2VuIiwidXNlcm5hbWUiOiJwYXZhbiBrdW1hciBzIHAiLCJpZCI6NTUxNjcxMjUxLCJhdXRob3JpdGllcyI6InVzZXIiLCJpYXQiOjE3MDI1MzQ2MjQsImV4cCI6MTcwNDk1MzgyNH0.eJF-8fp_QYX1TYi6t4ZAYPGiLF-htYZ6DUJBXnRzSDw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\":551671251,\n    \"name\":\"pabannnn\",\n    \"email\":\"pppp@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "Http://localhost:8080/api/user/private/updateProfile",
+							"protocol": "Http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"private",
+								"updateProfile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "refresh server",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/actuator/refresh",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"actuator",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -14,6 +14,7 @@ import Busscheduleservice.BusSchedule.Service.ScheduleService;
 import Busscheduleservice.BusSchedule.Utils.GenerateId;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,7 @@ public class ScheduleServiceImpp implements ScheduleService {
     private ModelMapper mapper;
     private ScheduleRepository scheduleRepository;
     private BusServicesFeign busServicesFeign;
-
+    @Autowired
     public ScheduleServiceImpp(ModelMapper mapper, ScheduleRepository scheduleRepository, BusServicesFeign busServicesFeign) {
         this.mapper = mapper;
         this.scheduleRepository = scheduleRepository;
@@ -117,7 +118,7 @@ public class ScheduleServiceImpp implements ScheduleService {
 
 
     Function<Schedule, ScheduleDtoWithBus> convertScheduleToScheduleWithBusRegResp = s1 ->{
-        BusRegResp bus = busServicesFeign.getBusByIdms(s1.getBusId());
+        ResponseEntity<BusRegResp> bus = busServicesFeign.getBusByIdms(s1.getBusId());
         ScheduleDtoWithBus sachedule = new ScheduleDtoWithBus();
         sachedule.setArrivalTime(s1.getArrivalTime());
         sachedule.setId(s1.getId());
@@ -126,7 +127,11 @@ public class ScheduleServiceImpp implements ScheduleService {
         sachedule.setPrice(s1.getPrice());
         sachedule.setDepartureTime(s1.getDepartureTime());
         sachedule.setDestination(s1.getDestination());
-        sachedule.setBus(bus);
+        if(null!=bus)
+        {
+            sachedule.setBus(bus.getBody());
+        }
+
         return sachedule;
     };
 

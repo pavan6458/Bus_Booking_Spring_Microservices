@@ -12,6 +12,7 @@ import BusPassangersservice.BusPassangers.Service.PassangerService;
 import BusPassangersservice.BusPassangers.Service.Client.seatAvailabilityFeign;
 import BusPassangersservice.BusPassangers.Utils.GenerateId;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -38,9 +39,9 @@ public class PassangersServiceImpp implements PassangerService {
     @Override
     public PassangerDto addPassangersToBooking(PassangerDto passangerDto) {
 
-        boolean notReserved=seatAvailable.mscheckavailiability(passangerDto);
+        ResponseEntity<Boolean> notReserved=seatAvailable.mscheckavailiability(passangerDto);
         List<PassangerDto> passangerDtos = new ArrayList<>();
-        if(notReserved)
+        if(notReserved.getBody()!=null && notReserved.getBody())
         {
 
 

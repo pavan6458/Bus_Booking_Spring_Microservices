@@ -8,9 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient("busadmin")
+@FeignClient(name = "busadmin",fallback = BusServiceFallback.class)
 public interface BusServicesFeign {
 
     @GetMapping("/api/bus/ms/{msbusId}")
-    public BusRegResp getBusByIdms(@PathVariable(name = "msbusId") Integer busId);
+    public ResponseEntity<BusRegResp> getBusByIdms(@PathVariable(name = "msbusId") Integer busId);
 }

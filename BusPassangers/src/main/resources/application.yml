@@ -3,6 +3,10 @@ spring:
     url: jdbc:postgresql://localhost:5432/passangers
     username: postgres
     password: Pavan6458@
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
 
   profiles:
     active: default

@@ -5,62 +5,38 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.1</version>
+		<version>3.2.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.busbooking.microservices.main</groupId>
-	<artifactId>microservices</artifactId>
+	<groupId>com.busservice</groupId>
+	<artifactId>Bus-ms-eureka-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    <name>microservices</name>
-	<description>Demo project for Spring Boot</description>
-    <modules>
-        <module>Bus-ms-Admin</module>
-		<module>Bus-ms-schedule</module>
-		<module>Bus-ms-passangers</module>
-		<module>Bus-ms-Users</module>
-		<module>Bus-ms-config-Server</module>
-		<module>Bus-ms-eureka-server</module>
-		<module>gatewayServer</module>
-	</modules>
-    <properties>
+	<name>eurekaserver</name>
+	<description>discover server and load balancing</description>
+	<properties>
 		<java.version>17</java.version>
 		<spring-cloud.version>2023.0.0</spring-cloud.version>
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>3.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-			<version>2.7.0</version>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-
-
-
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt-jackson</artifactId>
-			<version>0.11.5</version>
-			<scope>runtime</scope>
-		</dependency>
-
 	</dependencies>
-
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -78,6 +54,19 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>2.8.0</version>
+				<configuration>
+					<from>
+						<image>openjdk:17-jdk</image>
+					</from>
+					<to>
+						<image>pavan6458/eurekaserver:v1</image>
+					</to>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

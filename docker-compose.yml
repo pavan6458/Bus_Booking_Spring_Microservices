@@ -6,9 +6,9 @@ services:
     build: ./Bus-ms-eureka-server
     image: eurekaserver:latest
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/BusBooking
-      SPRING_DATASOURCE_USERNAME: BusBooking
-      SPRING_DATASOURCE_PASSWORD: Admin123
+      SPRING_DATASOURCE_URL: ${DATABASE_URL}
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
     ports:
       - "8070:8070"
     networks:
@@ -24,15 +24,14 @@ services:
     container_name: configserver-ms
     build: ./Bus-ms-config-Server
     image: configserver:latest
-
     ports:
       - "8071:8071"
     environment:
       SPRING_RABBITMQ_HOST: rabbitmq
       SPRING_RABBITMQ_PORT: 5672
-      SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/BusBooking
-      SPRING_DATASOURCE_USERNAME: BusBooking
-      SPRING_DATASOURCE_PASSWORD: Admin123
+      SPRING_DATASOURCE_URL: ${DATABASE_URL}
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
     networks:
       - busservices
     depends_on:
@@ -62,9 +61,9 @@ services:
       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071
       SPRING_PROFILES_ACTIVE: default
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
-      SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/BusBooking
-      SPRING_DATASOURCE_USERNAME: BusBooking
-      SPRING_DATASOURCE_PASSWORD: Admin123
+      SPRING_DATASOURCE_URL: ${DATABASE_URL}
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
     depends_on:
       configserver:
         condition: service_healthy
@@ -73,7 +72,7 @@ services:
         limits:
           memory: 700m
     healthcheck:
-      test: "curl --fail --silent http://localhost:8070/actuator/health/readiness | grep UP || exit 1"
+      test: "curl --fail --silent http://localhost:8086/actuator/health/readiness | grep UP || exit 1"
       interval: 10s
       timeout: 5s
       retries: 10
@@ -92,9 +91,9 @@ services:
       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071
       SPRING_PROFILES_ACTIVE: default
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
-      SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/BusBooking
-      SPRING_DATASOURCE_USERNAME: BusBooking
-      SPRING_DATASOURCE_PASSWORD: Admin123
+      SPRING_DATASOURCE_URL: ${DATABASE_URL}
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
     depends_on:
       configserver:
         condition: service_healthy
@@ -103,7 +102,7 @@ services:
         limits:
           memory: 700m
     healthcheck:
-      test: "curl --fail --silent http://localhost:8070/actuator/health/readiness | grep UP || exit 1"
+      test: "curl --fail --silent http://localhost:8083/actuator/health/readiness | grep UP || exit 1"
       interval: 10s
       timeout: 5s
       retries: 10
@@ -122,9 +121,9 @@ services:
       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071
       SPRING_PROFILES_ACTIVE: default
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
-      SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/BusBooking
-      SPRING_DATASOURCE_USERNAME: BusBooking
-      SPRING_DATASOURCE_PASSWORD: Admin123
+      SPRING_DATASOURCE_URL: ${DATABASE_URL}
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
     depends_on:
       configserver:
         condition: service_healthy
@@ -133,7 +132,7 @@ services:
         limits:
           memory: 700m
     healthcheck:
-      test: "curl --fail --silent http://localhost:8070/actuator/health/readiness | grep UP || exit 1"
+      test: "curl --fail --silent http://localhost:8082/actuator/health/readiness | grep UP || exit 1"
       interval: 10s
       timeout: 5s
       retries: 10
@@ -152,9 +151,9 @@ services:
       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071
       SPRING_PROFILES_ACTIVE: default
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
-      SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/BusBooking
-      SPRING_DATASOURCE_USERNAME: BusBooking
-      SPRING_DATASOURCE_PASSWORD: Admin123
+      SPRING_DATASOURCE_URL: ${DATABASE_URL}
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
     depends_on:
       configserver:
         condition: service_healthy
@@ -163,46 +162,45 @@ services:
         limits:
           memory: 700m
     healthcheck:
-      test: "curl --fail --silent http://localhost:8070/actuator/health/readiness | grep UP || exit 1"
+      test: "curl --fail --silent http://localhost:8084/actuator/health/readiness | grep UP || exit 1"
       interval: 10s
       timeout: 5s
       retries: 10
       start_period: 5s
 
   gateway:
-   container_name: gateway-ms
-   build: ./gatewayServer
-   image: gateway:latest
-   ports:
-    - "8085:8084"   # Host:Container
-   networks:
-    - busservices
-   depends_on:
-    eurekaserver:
-      condition: service_healthy
-    configserver:
-      condition: service_healthy
-    busadmin:
-      condition: service_healthy
-    usermaster:
-      condition: service_healthy
-    buspassengers:
-      condition: service_healthy
-    busschedule:
-      condition: service_healthy
-   environment:
-     EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
-   deploy:
-    resources:
-      limits:
-        memory: 700m
-   healthcheck:
-      test: "curl --fail --silent http://localhost:8070/actuator/health/readiness | grep UP || exit 1"
+    container_name: gateway-ms
+    build: ./gatewayServer
+    image: gateway:latest
+    ports:
+      - "8085:8084"
+    networks:
+      - busservices
+    depends_on:
+      eurekaserver:
+        condition: service_healthy
+      configserver:
+        condition: service_healthy
+      busadmin:
+        condition: service_healthy
+      usermaster:
+        condition: service_healthy
+      buspassengers:
+        condition: service_healthy
+      busschedule:
+        condition: service_healthy
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    healthcheck:
+      test: "curl --fail --silent http://localhost:8085/actuator/health/readiness | grep UP || exit 1"
       interval: 10s
       timeout: 5s
       retries: 10
       start_period: 5s
-
 
 networks:
   busservices:

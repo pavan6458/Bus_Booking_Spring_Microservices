@@ -143,7 +143,7 @@ services:
     build: ./Bus-ms-Users
     image: usermaster:latest
     ports:
-      - "8084:8084"
+      - "8090:8090"
     networks:
       - busservices
     environment:
@@ -162,7 +162,7 @@ services:
         limits:
           memory: 700m
     healthcheck:
-      test: "curl --fail --silent http://localhost:8084/actuator/health/readiness | grep UP || exit 1"
+      test: "curl --fail --silent http://localhost:8090/actuator/health/readiness | grep UP || exit 1"
       interval: 10s
       timeout: 5s
       retries: 10
@@ -173,7 +173,7 @@ services:
     build: ./gatewayServer
     image: gateway:latest
     ports:
-      - "8085:8084"
+      - "8084:8084"
     networks:
       - busservices
     depends_on:
@@ -196,7 +196,7 @@ services:
         limits:
           memory: 700m
     healthcheck:
-      test: "curl --fail --silent http://localhost:8085/actuator/health/readiness | grep UP || exit 1"
+      test: "curl --fail --silent http://localhost:8084/actuator/health/readiness | grep UP || exit 1"
       interval: 10s
       timeout: 5s
       retries: 10

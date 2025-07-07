@@ -17,11 +17,6 @@ spring:
     username: "guest"
     password: "guest"
 
-
-
-
-
-
   application:
     name: usermaster
   # Hibernate Configuration
@@ -56,7 +51,7 @@ spring:
   #   web-application-type: reactive
 
 server:
-  port: 8084
+  port: 8090
 
 build:
   version: 1.0
@@ -65,16 +60,17 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: health,info,readiness,liveness
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: always
   health:
     readiness-state:
       enabled: true
     liveness-state:
       enabled: true
-  endpoint:
-    health:
-      probes:
-        enabled: true
 
 endpoints:
   shutdown:

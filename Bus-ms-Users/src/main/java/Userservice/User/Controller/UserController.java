@@ -14,6 +14,8 @@ import Userservice.User.Utils.SecurityConstants;
 //import io.jsonwebtoken.Jwts;
 //import io.jsonwebtoken.security.Keys;
 //import jakarta.servlet.http.HttpServletResponse;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,9 +64,9 @@ public class UserController {
 
             if (user != null) {
                 try {
-//                    String jwtToken = generateJwtToken(user);
+                   String jwtToken = generateJwtToken(user);
                     Map<String, String> token = new HashMap<>();
-//                    token.put("token", jwtToken);
+                  token.put("token", jwtToken);
 
 
                     return ResponseGenerater.ResponseBuilder(HttpStatus.OK, "OTP verified Successfully with mobile number " + loginOtpReq.getMobileNo(), token);
@@ -124,12 +126,12 @@ public class UserController {
     }
 
 
-//    private String generateJwtToken(User user) {
-//        SecretKey key = Keys.hmacShaKeyFor(SecurityConstants.JWT_TokenGenerationKEy.getBytes(StandardCharsets.UTF_8));
-//        return Jwts.builder().setIssuer("pavan").setSubject("jwtToken")
-//               .claim("username", user.getName())
-//                .claim("id", user.getId()).setIssuedAt(new Date()).setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION_TIME)).signWith(key).compact();
-//    }
+    private String generateJwtToken(User user) {
+        SecretKey key = Keys.hmacShaKeyFor(SecurityConstants.JWT_TokenGenerationKEy.getBytes(StandardCharsets.UTF_8));
+        return Jwts.builder().setIssuer("pavan").setSubject("jwtToken")
+               .claim("username", user.getName())
+                .claim("id", user.getId()).setIssuedAt(new Date()).setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION_TIME)).signWith(key).compact();
+    }
 
 
 }

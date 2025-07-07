@@ -39,7 +39,7 @@ public class GatewayServerApplication {
                                 .uri("lb://BUSPASSENGERS")
                 )
                 .route(p ->
-                        p.path("/busbooking/busschedule/**")
+                        p.path("/busBooking/busschedule/**")
                                 .filters(f -> f.rewritePath("/busbooking/busschedule/(?<segment>.*)", "/${segment}")
                                                 .retry(retryConfig -> retryConfig.setRetries(3)
                                                         .setMethods(HttpMethod.GET)
@@ -49,7 +49,7 @@ public class GatewayServerApplication {
                                 .uri("lb://BUSSCHEDULE")
                 )
                 .route(p ->
-                        p.path("/busbooking/usermaster/**")
+                        p.path("/busBooking/usermaster/**")
                                 .filters(f -> f.rewritePath("/busbooking/usermaster/(?<segment>.*)", "/${segment}")
                                         .circuitBreaker(config -> config.setName("usermasterCircuitBreaker")
                                                 .setFallbackUri("forward:/contactSupport")))
